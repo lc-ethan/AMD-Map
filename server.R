@@ -7,9 +7,12 @@
 
 
 server <- function(input, output, session) {
+  ### initial data setup ----
+  md_base <- reactiveValues(data_map = df.initial_map,
+                            data_ts = df.initial_ts,
+                            hl_md = vt.hl_md,
+                            hl_time_select = vt.param_time_select[1])
+  
   source("./tools/server - map.R", local = TRUE)
-    # source("./tools/server - overview data creation.R", local = TRUE)
-  # source("./tools/server - overview panel.R", local = TRUE)
-  # source("./tools/server - comparative data creation.R", local = TRUE)
-  # source("./tools/server - comparative panel.R", local = TRUE)
+  source("./tools/server - time series.R", local = TRUE)
 }
