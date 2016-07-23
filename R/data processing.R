@@ -20,6 +20,7 @@ dir.output <- "./data"
 df.raw_pop <- read_csv(file.path(dir.data, "Population Projection.csv"))
 df.raw_MD <- read_csv(file.path(dir.data, "Prevalence Percentage Estimate.csv")) 
 spldf.raw_nz <- readOGR(dsn = file.path(dir.data, "shapefile"), layer = "TA2016_GV_Clipped")
+df.db_meta <- read_csv(file.path(dir.data, "Observer Control Meta.csv"))
 
 ### data processing ----
 ## population and MD data
@@ -84,7 +85,7 @@ spldf.db_nz@polygons <- spldf.simplify@polygons
 
 
 ### export ----
-save(df.db_input, spldf.db_nz, file = file.path(dir.output, "dashboard input.rda"))
+save(df.db_input, df.db_meta, spldf.db_nz, file = file.path(dir.output, "dashboard input.rda"))
 
 
 
