@@ -11,7 +11,8 @@ server <- function(input, output, session) {
   md_base <- reactiveValues(data_map = df.initial_map,
                             data_ts = df.initial_ts,
                             hl_md = vt.hl_md,
-                            hl_time_select = vt.param_time_select[1])
+                            hl_time_select = vt.param_time_select[1],
+                            param_region_select = "")
   
   source("./tools/server - map.R", local = TRUE)
   source("./tools/server - time series.R", local = TRUE)
