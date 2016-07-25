@@ -78,7 +78,7 @@ spldf.db_nz@data <- spldf.db_nz@data %>%
   change_names("TA2016_NAM", "TA") %>% 
   mutate(TA = tolower(TA))
 
-spldf.db_nz <- subset(spldf.db_nz, !TA %in% "chatham islands territory")
+spldf.db_nz <- subset(spldf.db_nz, !TA %in% c("chatham islands territory", "area outside territorial authority"))
 
 spldf.simplify <- gSimplify(spldf.db_nz, topologyPreserve = TRUE, tol = 0.01)
 spldf.db_nz@polygons <- spldf.simplify@polygons
