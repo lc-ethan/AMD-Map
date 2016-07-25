@@ -7,13 +7,44 @@ shinyUI(
   bootstrapPage(
     tags$style(type = "text/css", "html, body {width:100%;height:100%}"),
     leafletOutput("md_map", width = "100%", height = "100%"),
+    
     absolutePanel(
-      top = 3, right = 3,
-      conditionalPanel(
-        condition = "input.param_ts_loc",
-        highchartOutput("md_ts", height = 250, width = 400)
-      )
+      top = 12, left = 50,
+      div(
+        style = "display:inline-block;vertical-align:top;margin-right:10px;",
+        img(src = "./img/logo.png", height = "45px")
+      ),
 
+      div(
+        style = "display:inline-block;vertical-align:top;margin-top: -10px;",
+        p(h4(strong("Age-related Macular Degeneration (AMD) is a growing problem in NZ")),
+          h5(strong(textOutput("md_subtitle"))))
+      )
+      
+      # img(src = "./img/logo.png", height = "40px"),
+      # p(h4(strong("   Age-related Macular Degeneration (AMD) is a growing problem in NZ")),
+      #   h5(strong("   The prevalence of AMD is expected to be xx in xxxx")))
+
+      
+
+
+    ),
+    
+
+    
+    
+    absolutePanel(
+      top = 3, right = 5,
+      
+      #verbatimTextOutput("test"),
+      div(
+       style = "text-align:right;",
+       # img(src = "./img/logo.png", height = "40px"),
+       conditionalPanel(
+         condition = "input.param_ts_loc",
+         highchartOutput("md_ts", height = 300, width = 450)
+       )
+      )
     ),
     
     absolutePanel(
