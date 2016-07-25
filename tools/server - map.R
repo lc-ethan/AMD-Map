@@ -1,11 +1,19 @@
 ### spatial map ----
-df.map_meta <- df.db_meta %>% 
+output$test <- renderPrint({
+  # list(a = input$md_map_shape_click,
+  #      b = input$md_map_shape_mouseover,
+  #      c = input$md_map_shape_mouseout)
+  #input$md_map_shape_mouseover
+  md_base$param_region_select
+})
+
+df.md_meta_map <- df.db_meta %>% 
   filter(proc %in% "data_map")
 
-for (i in df.map_meta$name) {
+for (i in df.md_meta_map$name) {
   local({
     vt.name_cur <- i
-    vt.group_cur <- df.map_meta %>% 
+    vt.group_cur <- df.md_meta_map %>% 
       filter(name %in% vt.name_cur) %>% 
       .[["group"]]
     
@@ -46,11 +54,11 @@ output$md_map <- renderLeaflet({
     fitBounds(lng1 = mat.bounds[1, 1], lat1 = mat.bounds[2, 1],
               lng2 = mat.bounds[1, 2], lat2 = mat.bounds[2, 2]) %>% 
     addPolygons(
-      stroke = TRUE, fillOpacity = 0.5, smoothFactor = 0.5, popup = spldf.plot$POPUP,
+      stroke = TRUE, fillOpacity = 0.5, smoothFactor = 0.5,
       fillColor =  ~colorNumeric("YlOrRd", spldf.plot$INDEX)(INDEX),
-      dashArray = "5, 5", color = "white") %>% 
+      dashArray = "5, 5", color = "white", layerId = spldf.plot$TA) %>% 
     addLegend(position = "bottomright", pal = colorNumeric("YlOrRd", spldf.plot$INDEX),
-              values = spldf.plot$INDEX , title = "Prevalence Estimate (%)")
+              values = spldf.plot$INDEX , title = "MD Prevalence Estimate (%)")
 })
 
 observe({
@@ -62,19 +70,55 @@ observe({
   
   mat.bounds <- bbox(spldf.plot)
   
-  ll.base <- leafletProxy("md_map", data = spldf.plot) %>%
+  ll.base <- leafletProxy("md_map") %>%
     clearShapes() %>%
-    clearControls() %>%
     clearPopups() %>% 
-    fitBounds(lng1 = mat.bounds[1, 1], lat1 = mat.bounds[2, 1],
-              lng2 = mat.bounds[1, 2], lat2 = mat.bounds[2, 2]) %>% 
-    addPolygons(stroke = TRUE, fillOpacity = 0.5, smoothFactor = 0.5, popup = spldf.plot$POPUP,
+    # fitBounds(lng1 = mat.bounds[1, 1], lat1 = mat.bounds[2, 1],
+    #           lng2 = mat.bounds[1, 2], lat2 = mat.bounds[2, 2]) %>% 
+    addPolygons(data = spldf.plot, stroke = TRUE, fillOpacity = 0.5, smoothFactor = 0.5, 
+                #popup = spldf.plot$POPUP,
                 fillColor =  ~colorNumeric("YlOrRd", spldf.plot$INDEX)(INDEX),
-                dashArray = "5, 5", color = "white")
+                dashArray = "5, 5", color = "white", layerId = spldf.plot$TA)
 })
 
 
-observeEvent(input$param_legend_loc, {
+## region highlights
+observeEvent(input$md_map_shape_click, {
+  md_base$param_region_select <- input$md_map_shape_click$id
+}, ignoreNULL = FALSE)
+
+observeEvent(input$param_time_select, {
+  md_base$param_region_select <- ""
+}, ignoreNULL = FALSE)
+
+
+observeEvent(input$param_project_select, {
+  md_base$param_region_select <- ""
+}, ignoreNULL = FALSE)
+
+
+observeEvent(md_base$param_region_select, {
+  vt.param_region <- md_base$param_region_select
+
+  if (!vt.param_region %in% c("region_selected", "")) {
+      spldf.plot <- subset(spldf.db_nz, TA %in% vt.param_region)
+      leafletProxy("md_map") %>% 
+        addPolygons(data = spldf.plot, stroke = TRUE, fillOpacity = 0.7, smoothFactor = 0.5,
+                    fillColor = "red",
+                    dashArray = "5, 5", color = "black", layerId = "region_selected")
+  }
+  else {
+    leafletProxy("md_map") %>%
+      removeShape(layerId = "region_selected")
+  }
+}, ignoreNULL = FALSE)
+
+
+
+
+
+
+observe({
   vt.param_legend_loc <- input$param_legend_loc
   proxy <- leafletProxy("md_map") %>%
     clearControls()
@@ -91,7 +135,61 @@ observeEvent(input$param_legend_loc, {
     
     proxy <- proxy %>% 
       addLegend(position = "bottomright", pal = colorNumeric("YlOrRd", spldf.plot$INDEX),
-                values = spldf.plot$INDEX , title = "Prevalence Estimate (%)")
+                values = spldf.plot$INDEX , title = "AMD Prevalence Estimate (%)")
   }
   proxy
+})
+
+
+# observeEvent(input$md_map_shape_mouseout$id, {
+#   leafletProxy("md_map") %>%
+#     clearPopups()
+# })
+# 
+# observeEvent(input$md_map_shape_mouseover$id, {
+#   pointId <- input$md_map_shape_mouseover$id
+#   lat <- input$md_map_shape_mouseover$lat
+#   lng <- input$md_map_shape_mouseover$lng
+#   df.plot <- md_base$data_map
+#   spldf.plot <- subset(spldf.db_nz, TA %in% pointId)
+# 
+# 
+#   spldf.plot@data <- spldf.plot@data %>%
+#     left_join(df.plot, by = "TA")
+# 
+#   # spldf.plot_centroid <- gCentroid(spldf.plot)
+# 
+#   leafletProxy("md_map") %>%
+#     addPopups(lng = lng, lat = lat,
+#               popup = spldf.plot$POPUP)
+# })
+
+
+### headlines ----
+output$md_subtitle <- renderText({
+  vt.param_time <- input$param_time_select
+  vt.param_project <- input$param_project_select
+  vt.param_region <- md_base$param_region_select
+  df.input <- df.db_input
+  
+  if (!vt.param_region %in% c("", "region_selected")) {
+    df.input <- df.input %>% 
+      filter(TA %in% vt.param_region)
+  }
+  
+  vt.predict <- df.input %>%
+    ungroup() %>% 
+    filter(YEAR %in% vt.param_time) %>% 
+    filter(PROJECTION %in% vt.param_project) %>% 
+    summarise(MD = format(round(sum(MD, na.rm = TRUE)), big.mark = ",")) %>% 
+    .[["MD"]]
+  
+  vt.title_region <- ifelse(vt.param_region %in% c("", "region_selected"), "NZ", vt.param_region)
+  vt.title_region <- gsub("district", "", vt.title_region)
+  vt.title_region <- gsub("city", "", vt.title_region)
+  vt.title_region <- convert_cap(vt.title_region)
+  vt.output <- paste("The prevalence of AMD is expected to be", vt.predict, "in", 
+                     vt.param_time, "over", vt.title_region)
+  
+  return(vt.output)
 })
