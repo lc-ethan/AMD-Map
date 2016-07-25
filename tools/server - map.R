@@ -1,10 +1,10 @@
 ### spatial map ----
 output$test <- renderPrint({
-  # list(a = input$md_map_shape_click,
-  #      b = input$md_map_shape_mouseover,
-  #      c = input$md_map_shape_mouseout)
+  list(b = input$md_map_shape_mouseover$id,
+       c = input$md_map_shape_mouseout$id,
+       d = md_base$param_region_hover)
   #input$md_map_shape_mouseover
-  md_base$param_region_select
+  # md_base$param_region_select
 })
 
 df.md_meta_map <- df.db_meta %>% 
@@ -117,7 +117,7 @@ observeEvent(md_base$param_region_select, {
 
 
 
-
+### legend ----
 observe({
   vt.param_legend_loc <- input$param_legend_loc
   proxy <- leafletProxy("md_map") %>%
@@ -140,30 +140,44 @@ observe({
   proxy
 })
 
+### tooltip ----
+observeEvent(input$md_map_shape_mouseover$id, {
+  md_base$param_region_hover <- ifelse(is.null(input$md_map_shape_mouseover$id), "", input$md_map_shape_mouseover$id)
+})
 
 # observeEvent(input$md_map_shape_mouseout$id, {
 #   leafletProxy("md_map") %>%
-#     clearPopups()
-# })
+#     removeShape(layerId = "region_hoveron")
+# }, ignoreNULL = FALSE)
 # 
-# observeEvent(input$md_map_shape_mouseover$id, {
-#   pointId <- input$md_map_shape_mouseover$id
-#   lat <- input$md_map_shape_mouseover$lat
-#   lng <- input$md_map_shape_mouseover$lng
-#   df.plot <- md_base$data_map
-#   spldf.plot <- subset(spldf.db_nz, TA %in% pointId)
+# observeEvent(md_base$param_region_hover, {
+#   #vt.param_region <- md_base$param_region_hover
 # 
-# 
-#   spldf.plot@data <- spldf.plot@data %>%
-#     left_join(df.plot, by = "TA")
-# 
-#   # spldf.plot_centroid <- gCentroid(spldf.plot)
-# 
-#   leafletProxy("md_map") %>%
-#     addPopups(lng = lng, lat = lat,
-#               popup = spldf.plot$POPUP)
+#   if (!md_base$param_region_hover %in% "") {
+#     spldf.plot <- subset(spldf.db_nz, TA %in% md_base$param_region_hover)
+#     leafletProxy("md_map") %>%
+#       addPolygons(data = spldf.plot, stroke = TRUE, 
+#                   fillOpacity = 0.1, smoothFactor = 0.5,
+#                   color = "black", layerId = "region_hover")
+#   }
 # })
 
+
+observeEvent(input$md_map_shape_mouseout$id, {
+  md_base$tooltip <- NULL
+}, ignoreNULL = FALSE)
+
+observeEvent(input$md_map_shape_mouseover$id, {
+  vt.param_region <- input$md_map_shape_mouseover$id
+  df.input <- md_base$data_map
+  df.output <- df.input %>% 
+    filter(TA %in% vt.param_region)
+  md_base$tooltip <- df.output$POPUP
+})
+
+output$md_tooltip <- renderText({
+  md_base$tooltip
+})
 
 ### headlines ----
 output$md_subtitle <- renderText({

@@ -42,7 +42,7 @@ df.initial_map <- df.db_input %>%
   mutate(INDEX = MD_STD * 100) %>% 
   group_by(TA) %>% 
   mutate(POPUP = paste(paste0("<b>", convert_cap(TA), " (", YEAR, ")</b><br/>"),
-                       "Prevalence Estimate:  <b>", format(round(MD, 0), big.mark = ","), " (", round(INDEX, 2), "%)", "</b><br/>",
+                       "AMD Prevalence Estimate:  <b>", format(round(MD, 0), big.mark = ","), " (", round(INDEX, 2), "%)", "</b><br/>",
                        "Population: <b>",  format(BASE, big.mark = ","), "</b><br/>",
                        sep = "")) %>% 
   select(TA, INDEX, POPUP)

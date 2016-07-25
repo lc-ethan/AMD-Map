@@ -20,26 +20,27 @@ shinyUI(
         p(h4(strong("Age-related Macular Degeneration (AMD) is a growing problem in NZ")),
           h5(strong(textOutput("md_subtitle"))))
       )
-      
-      # img(src = "./img/logo.png", height = "40px"),
-      # p(h4(strong("   Age-related Macular Degeneration (AMD) is a growing problem in NZ")),
-      #   h5(strong("   The prevalence of AMD is expected to be xx in xxxx")))
-
-      
-
-
     ),
     
+    # absolutePanel(
+    #   top = 70, left = 5,
+    #   div(
+    #     style = "background-color: #fffff80;width:280px;text-align:left;",
+    #     div(
+    #       style = "margin:5px;",
+    #       htmlOutput("md_tooltip") 
+    #     )
+    #   )
+    # ),
+
 
     
     
     absolutePanel(
       top = 3, right = 5,
       
-      #verbatimTextOutput("test"),
       div(
        style = "text-align:right;",
-       # img(src = "./img/logo.png", height = "40px"),
        conditionalPanel(
          condition = "input.param_ts_loc",
          highchartOutput("md_ts", height = 300, width = 450)
@@ -47,8 +48,19 @@ shinyUI(
       )
     ),
     
+    
+    
     absolutePanel(
       bottom = 10, left = 10,
+      div(
+        style = "background-color: #fffff80;width:280px;text-align:left;",
+        div(
+          #style = "margin:5px;",
+          htmlOutput("md_tooltip") 
+        )
+      ),
+      br(),
+
       radioButtons(
         inputId = "param_project_select",
         label = "Projection",

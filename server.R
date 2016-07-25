@@ -12,7 +12,9 @@ server <- function(input, output, session) {
                             data_ts = df.initial_ts,
                             hl_md = vt.hl_md,
                             hl_time_select = vt.param_time_select[1],
-                            param_region_select = "")
+                            param_region_select = "",
+                            param_region_hover = "",
+                            tooltip = NULL)
   
   source("./tools/server - map.R", local = TRUE)
   source("./tools/server - time series.R", local = TRUE)
