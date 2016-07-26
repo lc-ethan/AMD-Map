@@ -168,7 +168,8 @@ observeEvent(input$md_map_shape_mouseout$id, {
 }, ignoreNULL = FALSE)
 
 observeEvent(input$md_map_shape_mouseover$id, {
-  vt.param_region <- input$md_map_shape_mouseover$id
+  vt.param_region <- ifelse(input$md_map_shape_mouseover$id %in% "region_selected",
+                            md_base$param_region_select, input$md_map_shape_mouseover$id)
   df.input <- md_base$data_map
   df.output <- df.input %>% 
     filter(TA %in% vt.param_region)
