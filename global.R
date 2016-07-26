@@ -9,20 +9,19 @@ require(rgeos)
 require(plyr)
 require(dplyr)
 require(purrr)
-require(rgears)
 require(shiny)
 require(shinydashboard)
 require(shinyBS)
 require(leaflet)
 require(highcharter)
-require(readr)
+
 
 # environment cleanup
 rm(list = ls()); gc()
 
 ### directories ----
 dir.data <- "./data"
-dir.fn <- "./R"
+dir.fn <- "./r"
 
 ### data ----
 load(file.path(dir.data, "dashboard input.rda"))
