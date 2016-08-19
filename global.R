@@ -15,13 +15,12 @@ require(shinyBS)
 require(leaflet)
 require(highcharter)
 
-
 # environment cleanup
 rm(list = ls()); gc()
 
 ### directories ----
 dir.data <- "./data"
-dir.fn <- "./r"
+dir.fn <- "./R"
 
 ### data ----
 load(file.path(dir.data, "dashboard input.rda"))

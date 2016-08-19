@@ -42,7 +42,7 @@ output$md_ts <- renderHighchart({
   vt.title_region <- gsub("district", "", vt.title_region)
   vt.title_region <- gsub("city", "", vt.title_region)
   vt.title_region <- convert_cap(vt.title_region)
-  vt.title <- paste0("<b>Prevalence Prediction of AMD with European and Asian Combined (45-85 Years) in ", 
+  vt.title <- paste0("<b>Prevalence Prediction (45-85 Years) in ", 
                      vt.title_region, "</b>")
   
   df.plot <- df.input %>%
@@ -53,13 +53,13 @@ output$md_ts <- renderHighchart({
   hc.hist <- highchart(height = 250, width = 100) %>% 
     hc_chart(type = "column") %>% 
     hc_subtitle(text = vt.title) %>% 
-    hc_xAxis(title = list(text = "Time"), 
+    hc_xAxis(title = list(text = "Year"), 
              categories = df.input$YEAR) %>% 
     hc_yAxis(title = list(text = "Prevalence Estimate (#)")) %>% 
     hc_add_series(data = df.plot) %>% 
     hc_tooltip(
       headerFormat = "<b>{point.x}</b> <br>",
-      pointFormat = paste0("Prevalence Estimate (#)", ": <b>{point.y:,.0f}</b>")
+      pointFormat = paste0("Prevalence Prediction (#)", ": <b>{point.y:,.0f}</b>")
     ) %>% 
     hc_plotOptions(
       series = list(

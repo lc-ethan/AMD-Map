@@ -31,8 +31,8 @@ for (i in df.md_meta_map$name) {
         mutate(INDEX = MD_STD * 100) %>% 
         group_by(TA) %>% 
         mutate(POPUP = paste(paste0("<b>", convert_cap(TA), " (", YEAR, ")</b><br/>"),
-                             "Prevalence Estimate:  <b>", format(round(MD, 0), big.mark = ","), " (", round(INDEX, 2), "%)", "</b><br/>",
-                             "Population: <b>",  format(BASE, big.mark = ","), "</b><br/>",
+                             "Prevalence Prediction:  <b>", format(round(MD, 0), big.mark = ","), " (", round(INDEX, 2), "%)", "</b><br/>",
+                             "Population Projection: <b>",  format(BASE, big.mark = ","), "</b><br/>",
                              sep = "")) %>% 
         select(TA, INDEX, POPUP)
       
@@ -134,15 +134,16 @@ observe({
     mat.bounds <- bbox(spldf.plot)
     
     proxy <- proxy %>% 
-      addLegend(position = "bottomright", pal = colorNumeric("YlOrRd", spldf.plot$INDEX),
-                values = spldf.plot$INDEX , title = "AMD Prevalence Estimate (%)")
+      addLegend(position = "bottomleft", pal = colorNumeric("YlOrRd", spldf.plot$INDEX),
+                values = spldf.plot$INDEX , title = "AMD Prevalence Prediction (%)")
   }
   proxy
 })
 
 ### tooltip ----
 observeEvent(input$md_map_shape_mouseover$id, {
-  md_base$param_region_hover <- ifelse(is.null(input$md_map_shape_mouseover$id), "", input$md_map_shape_mouseover$id)
+  md_base$param_region_hover <- ifelse(is.null(input$md_map_shape_mouseover$id), "", 
+                                       input$md_map_shape_mouseover$id)
 })
 
 # observeEvent(input$md_map_shape_mouseout$id, {
@@ -203,7 +204,7 @@ output$md_subtitle <- renderText({
   vt.title_region <- gsub("district", "", vt.title_region)
   vt.title_region <- gsub("city", "", vt.title_region)
   vt.title_region <- convert_cap(vt.title_region)
-  vt.output <- paste("The prevalence of AMD is expected to be", vt.predict, "in", 
+  vt.output <- paste("Total prevalence predicted to be", vt.predict, "in", 
                      vt.param_time, "over", vt.title_region)
   
   return(vt.output)

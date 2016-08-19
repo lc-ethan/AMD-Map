@@ -17,7 +17,7 @@ shinyUI(
 
       div(
         style = "display:inline-block;vertical-align:top;margin-top: -10px;",
-        p(h4(strong("Age-related Macular Degeneration (AMD) is a growing problem in NZ")),
+        p(h4(strong("Age-related Macular Degeneration (AMD) is a Growing Problem in NZ")),
           h5(strong(textOutput("md_subtitle"))))
       )
     ),
@@ -51,7 +51,7 @@ shinyUI(
     
     
     absolutePanel(
-      bottom = 10, left = 10,
+      bottom = 15, right = 10,
       div(
         style = "background-color: #ffffff80;width:280px;text-align:left;",
         div(
@@ -63,7 +63,7 @@ shinyUI(
       
       radioButtons(
         inputId = "param_project_select",
-        label = "Projection Series:",
+        label = "Population Growth Scenario:",
         choices = vt.param_project_select,
         selected = vt.param_project_select[1], 
         inline = TRUE
