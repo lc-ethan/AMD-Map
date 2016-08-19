@@ -51,7 +51,7 @@ shinyUI(
     
     
     absolutePanel(
-      bottom = 15, right = 10,
+      bottom = 15, left = 10,
       div(
         style = "background-color: #ffffff80;width:280px;text-align:left;",
         div(
@@ -78,7 +78,8 @@ shinyUI(
         min = min(vt.param_time_select), 
         max = max(vt.param_time_select),
         step = unique(diff(vt.param_time_select)),
-        value = min(vt.param_time_select)
+        value = min(vt.param_time_select),
+        sep = ""
       ),
       
       bsTooltip(id = "param_time_select", 

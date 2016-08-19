@@ -134,7 +134,7 @@ observe({
     mat.bounds <- bbox(spldf.plot)
     
     proxy <- proxy %>% 
-      addLegend(position = "bottomleft", pal = colorNumeric("YlOrRd", spldf.plot$INDEX),
+      addLegend(position = "bottomright", pal = colorNumeric("YlOrRd", spldf.plot$INDEX),
                 values = spldf.plot$INDEX , title = "AMD Prevalence Prediction (%)")
   }
   proxy
