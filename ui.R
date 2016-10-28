@@ -106,17 +106,15 @@ shinyUI(
       id = "md_help",
       title = "Age-related Macular Degeneration", size = "large", trigger = "param_help",
       HTML(
-           '<p style="text-align:justify">The macula is the central part of the retina, 
-           the light-sensitive tissue at the back of the eye. The retina processes all visual images. It is 
-           responsible for your ability to read, recognise faces, drive and see colours clearly. Macular Degeneration (MD)
-           causes progressive macular damage resulting in loss of central vision but the peripheral vision is not affected.</p>
-           
-           <p style="text-align:justify"> Age-related macular degeneration (AMD) is the leading cause of visual loss in individual
-           older than 50 years in New Zealand, as it is for the developed world as a whole. 
-           49% of blind registrations in New Zealand are for AMD. New Zealand is entering a period of 
-           demographic shift to an ageing population; thus the ageing of the population implies a rising 
-           prevalence of AMD with an associated treatment burden.</p>
-           
+           '<p style="text-align:justify">The retina is the light-sensitive tissue at the back of the eye. 
+           The retina processes all visual images. The macula, the central part of the retina, is responsible for your ability to read, 
+           recognise faces, drive and see colours clearly. Age-related macular degeneration (AMD) causes progressive macular damage 
+           resulting in loss of central vision but the peripheral vision is not affected.</p>
+ 
+           <p style="text-align:justify">AMD is the leading cause of visual loss in individuals older than 50 years in New Zealand, 
+           as it is for the developed world as a whole. Forty-nine percent of blind registrations in New Zealand are for AMD. New Zealand 
+           is undergoing a demographic shift to an ageing population with a rising prevalence of AMD.</p>
+
            <p style="text-align:justify"> 
            Reference: <a href="http://www.nzma.org.nz/journal/read-the-journal/all-issues/2010-2019/2015/vol-128-no-1409/6438" target="_blank">
            Prevalence predictions for age-related macular degeneration in New Zealand have implications for provision of healtcare services</a>'

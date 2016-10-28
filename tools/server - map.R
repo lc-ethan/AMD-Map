@@ -58,7 +58,7 @@ output$md_map <- renderLeaflet({
       fillColor =  ~colorNumeric("YlOrRd", spldf.plot$INDEX)(INDEX),
       dashArray = "5, 5", color = "white", layerId = spldf.plot$TA) %>% 
     addLegend(position = "bottomright", pal = colorNumeric("YlOrRd", spldf.plot$INDEX),
-              values = spldf.plot$INDEX , title = "MD Prevalence Estimate (%)")
+              values = spldf.plot$INDEX , title = "MD Prevalence Prediction (%)")
 })
 
 observe({

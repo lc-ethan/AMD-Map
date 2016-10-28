@@ -55,7 +55,7 @@ output$md_ts <- renderHighchart({
     hc_subtitle(text = vt.title) %>% 
     hc_xAxis(title = list(text = "Year"), 
              categories = df.input$YEAR) %>% 
-    hc_yAxis(title = list(text = "Prevalence Estimate (#)")) %>% 
+    hc_yAxis(title = list(text = "Prevalence Prediction (#)")) %>% 
     hc_add_series(data = df.plot) %>% 
     hc_tooltip(
       headerFormat = "<b>{point.x}</b> <br>",
