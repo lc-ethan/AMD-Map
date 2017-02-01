@@ -41,7 +41,8 @@ df.input_pop <- df.raw_pop %>%
   filter(ETHNICITY %in% c("European or Other (including New Zealander)"
                           , "Asian"
                           , "Total New Zealand population")) %>% 
-  filter(!TA %in% "Total, New Zealand by territorial authority") %>% 
+  filter(!TA %in% "Total, New Zealand by territorial authority") %>%
+  filter(YEAR != 2013) %>%
   select(-SEX, -FLAGS) %>% 
   filter(!grepl("local board area", TA)) %>% 
   filter(!grepl("region", TA)) %>% 
