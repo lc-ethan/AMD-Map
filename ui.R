@@ -117,7 +117,7 @@ shinyUI(
 
            <p style="text-align:justify"> 
            Reference: <a href="http://www.nzma.org.nz/journal/read-the-journal/all-issues/2010-2019/2015/vol-128-no-1409/6438" target="_blank">
-           Prevalence predictions for age-related macular degeneration in New Zealand have implications for provision of healtcare services</a>'
+           Prevalence predictions for age-related macular degeneration in New Zealand have implications for provision of healthcare services</a>'
       )
     )
   )
